@@ -125,15 +125,22 @@ app.delete('/api/groups/:id', (req: Request, res: Response) => {
 app.get('/api/groups/:id', (req: Request, res: Response) => {
   // TODO: (sample response below)
   // res.json(groups.find(group => group.id === Number(req.params.id)));
-  res.json({
-    id: 1,
-    groupName: 'Group 1',
-    members: [
-      { id: 1, name: 'Alice' },
-      { id: 2, name: 'Bob' },
-      { id: 3, name: 'Charlie' },
-    ],
-  })
+
+  const group: Group | undefined = groups.find(group => group.id === Number(req.params.id))
+
+  if (group !== undefined) res.json(group)
+  else {
+    res.status(404).send("Group not found");
+  }
+  // res.json({
+  //   id: 1,
+  //   groupName: 'Group 1',
+  //   members: [
+  //     { id: 1, name: 'Alice' },
+  //     { id: 2, name: 'Bob' },
+  //     { id: 3, name: 'Charlie' },
+  //   ],
+  // })
   /* TODO:
    * if (group id isn't valid) {
    *   res.status(404).send("Group not found");
