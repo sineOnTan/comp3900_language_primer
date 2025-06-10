@@ -1,6 +1,11 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 
+// ==================================
+// ==========Edge Cases==============
+// =======Same student names=========
+// =====Getting a deleted group id===
+// ==================================
 
 // NOTE: you may modify these interfaces
 interface Student {
@@ -78,6 +83,8 @@ app.post('/api/groups', (req: Request, res: Response) => {
   });
 
   const memberNumbers: number[] = req.body.members.map((name: any) => students.find(student => student.name === name)).map((student: { id: any; }) => student.id)
+  const memberDetails: Student[] = req.body.members.map((name: any) => students.find(student => student.name === name))
+
   const newID = curGroupId
   curGroupId += 1
 
@@ -90,7 +97,7 @@ app.post('/api/groups', (req: Request, res: Response) => {
   const tempGroup: Group = {
     id: newID,
     groupName: req.body.groupName,
-    members: req.body.members
+    members: memberDetails
   };
 
   groupsSum.push(tempGroupSum)
@@ -112,7 +119,7 @@ app.delete('/api/groups/:id', (req: Request, res: Response) => {
   if (indexRemove !== undefined) {
     groupsSum.splice(indexRemove, 1)
     groups.splice(indexRemove, 1)
-  }
+  } else {console.log("Invalid ID")}
   res.sendStatus(204); // send back a 204 (do not modify this line)
 });
 
@@ -127,8 +134,11 @@ app.get('/api/groups/:id', (req: Request, res: Response) => {
   // res.json(groups.find(group => group.id === Number(req.params.id)));
 
   const group: Group | undefined = groups.find(group => group.id === Number(req.params.id))
-
-  if (group !== undefined) res.json(group)
+  console.log("hi")
+  if (group !== undefined) {
+    console.log(group)
+    res.json(group)
+  }
   else {
     res.status(404).send("Group not found");
   }
