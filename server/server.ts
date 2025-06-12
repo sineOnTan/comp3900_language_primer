@@ -3,9 +3,9 @@ import cors from 'cors';
 
 // ==================================
 // ==========Edge Cases==============
-// =======Same student names=========
-// =====Getting a deleted group id===
-// ==================================
+// =====Getting a deleted group id=== 
+// =========to delete================ Prints out an error to console and discards the command
+
 
 // NOTE: you may modify these interfaces
 interface Student {
