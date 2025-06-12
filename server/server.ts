@@ -4,7 +4,7 @@ import cors from 'cors';
 // ==================================
 // ==========Edge Cases==============
 // =====Getting a deleted group id=== 
-// =========to delete================ Prints out an error to console and discards the command
+// =========to delete================ Throws an error that the group was not found.
 
 
 // NOTE: you may modify these interfaces
@@ -119,7 +119,9 @@ app.delete('/api/groups/:id', (req: Request, res: Response) => {
   if (indexRemove !== undefined) {
     groupsSum.splice(indexRemove, 1)
     groups.splice(indexRemove, 1)
-  } else {console.log("Invalid ID")}
+  } else {
+    res.status(404).send("Group not found");
+  }
   res.sendStatus(204); // send back a 204 (do not modify this line)
 });
 
